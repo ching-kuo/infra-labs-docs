@@ -20,7 +20,7 @@ variable "external_network_id" {
 
 variable "dns_ip" {
   type    = list(string)
-  default = ["8.8.8.8", "8.8.8.4"]
+  default = ["9.9.9.9", "8.8.4.4"]
 }
 
 #### VM parameters
