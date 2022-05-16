@@ -3,7 +3,12 @@
 sudo apt update
 curl -s https://deb.frrouting.org/frr/keys.asc | sudo apt-key add -
 FRRVER="frr-stable"
-echo deb https://deb.frrouting.org/frr $(lsb_release -s -c) $FRRVER | sudo tee -a /etc/apt/sources.list.d/frr.list
+
+# FRR Repo not support Ubuntu Jammy (22.04)
+if [ $(lsb_release -s -c) != "jammy" ]
+then
+    echo deb https://deb.frrouting.org/frr $(lsb_release -s -c) $FRRVER | sudo tee -a /etc/apt/sources.list.d/frr.list
+fi
 sudo apt update -y && sudo apt install -y frr frr-pythontools mtr
 
 echo "
