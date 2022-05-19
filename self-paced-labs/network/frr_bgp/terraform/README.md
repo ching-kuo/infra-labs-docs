@@ -157,6 +157,7 @@ service frr restart
 ## 設定文件
 
 > 我們需要在 Linux Shell 上輸入 `sudo vtysh` 才能進入 FRR CLI 模式。
+> 設定文件會存放在 `/etc/frr/frr.conf`。在 `vtysh` 中輸入 `show run` 可以看到設定文件的內容、輸入 `write` 則會將設定文件寫入。
 
 ```conf=
 # Router
@@ -167,11 +168,19 @@ hostname router-1
 log syslog informational
 service integrated-vtysh-config
 !
+# BGP 設定檔
 router bgp 65533
+
+ # 設定 Neighbor session 的 AS Number
  neighbor 192.168.1.20 remote-as 65531
  neighbor 192.168.2.20 remote-as 65532
  !
+
+ # IPv4 Sessions 及要宣告的路由
  address-family ipv4 unicast
+
+  # network 10.0.0.0/24 <- 這個例子是指宣告 10.0.0.0/24 的路由
+  # Neighbor - 要建立的 session，後面的 route-map 則是套用下方的規則。(in = 導入的路由，out = 導出的路由)
   neighbor 192.168.1.20 route-map R1-Import in
   neighbor 192.168.1.20 route-map Internal-Export out
   neighbor 192.168.2.20 route-map R2-Import in
@@ -179,10 +188,15 @@ router bgp 65533
  exit-address-family
 exit
 !
+
+# IP Prefix Lists - 通常用於網段過濾 (permit 允許、deny 拒絕，seq 則為優先級)
+# 通常輸入 `ip prefix-list r1 permit 192.168.0.0/24` 就會自動排序優先級了
 ip prefix-list r1 seq 5 permit 192.168.1.0/24
 ip prefix-list r2 seq 5 permit 192.168.2.0/24
 ip prefix-list anyv4 seq 5 permit any
 !
+
+# route-map 用於規則。可以根據優先級套用 prefix filter, community 等
 route-map R1-Import permit 5
  match ip address prefix-list r1
 exit
@@ -196,6 +210,9 @@ route-map Internal-Export permit 5
  match ip address prefix-list anyv4
 exit
 !
+
+# SR 設定檔。預設值為空
+# http://docs.frrouting.org/en/latest/pathd.html
 segment-routing
  traffic-eng
  exit
