@@ -1,5 +1,10 @@
 # Params file for variables
 
+# Configure the OpenStack Provider
+provider "openstack" {
+  region      = "RegionOne"
+}
+
 #### GLANCE
 variable "image" {
   type    = string

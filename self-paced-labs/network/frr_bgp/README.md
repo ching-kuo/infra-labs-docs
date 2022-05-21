@@ -18,7 +18,6 @@
 > 常見的像是 BGP, OSPF, IS-IS, MPLS 等屬於動態路由。
 > 而 Static Route 則是靜態路由
 
-
 ## 什麼是 BGP
 
 BGP (Border Gateway Protocol) 是一種外部路由協議，在 1989 年由 RFC 1105 所定義。因其具有 AS-Path 等路由特性，常用於 ISP 之間的路由交換。
@@ -118,7 +117,7 @@ AS Number 也可以視為網路世界的身分證，當與其他人建立 BGP Se
     - 與 router 建立 session
     - 宣告 192.168.2.0/24
 
-## 安裝指令
+## FRRouting 安裝指令
 
 ```shell=
 # 更新
@@ -154,7 +153,7 @@ sudo sed -i "s/=no/=yes/g" /etc/frr/daemons
 service frr restart
 ```
 
-## 設定文件
+## FRRouting 設定文件
 
 > 我們需要在 Linux Shell 上輸入 `sudo vtysh` 才能進入 FRR CLI 模式。
 > 設定文件會存放在 `/etc/frr/frr.conf`。在 `vtysh` 中輸入 `show run` 可以看到設定文件的內容、輸入 `write` 則會將設定文件寫入。
@@ -413,4 +412,51 @@ replace:
     103.172.124.0/24;
  }
 }
+```
+
+# Terraform 教學
+
+由於本教學是基於 [Terraform](https://www.terraform.io/) 的，所以會使用 [Terraform](https://www.terraform.io/) 的環境來進行教學。
+
+## 安裝 Terraform
+
+至 Terraform 官網的 [Downloads](https://www.terraform.io/downloads.html) 下載最新版本。  
+不同的版本有不同的下載方式 / 指令。
+
+## How to run Terraform script
+
+一旦安裝好 Terraform 後，我們就可以來進行部署了。
+
+首先執行以下指令：
+
+```shell
+# 先初始化環境
+`terraform init`
+```
+
+接著，我們要設定 OpenStack 的環境資訊，修改並執行以下指令。
+
+```shell
+# 新增 OpenStack 資訊
+export OS_USERNAME="" # 輸入 OpenStack 的帳號
+export OS_TENANT_NAME="" # 輸入 OpenStack 的帳號
+export OS_PASSWORD="" # 輸入 OpenStack 的密碼
+export OS_AUTH_URL="https://openstack.cloudnative.tw:5000" # 輸入 OpenStack 的授權網址，可以在 API Access 中找到
+```
+
+最後則是部署環境，執行以下指令：
+
+```shell
+# 部署環境
+`terraform apply`
+
+# 會跳出確認視窗，請輸入 `yes` 來確認。
+```
+
+## How to destroy the environment
+
+當實驗結束後，我們可以使用以下指令來銷毀環境：
+
+```shell
+terraform apply -destroy
 ```
