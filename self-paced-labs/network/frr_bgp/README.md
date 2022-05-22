@@ -434,17 +434,14 @@ replace:
 `terraform init`
 ```
 
-接著，我們要設定 OpenStack 的環境資訊，修改並執行以下指令。
+接著，我們要設定 OpenStack 的環境資訊。
 
-```shell
-# 新增 OpenStack 資訊
-export OS_USERNAME="" # 輸入 OpenStack 的帳號
-export OS_TENANT_NAME="" # 輸入 OpenStack 的帳號
-export OS_PASSWORD="" # 輸入 OpenStack 的密碼
-export OS_AUTH_URL="https://openstack.cloudnative.tw:5000" # 輸入 OpenStack 的授權網址，可以在 API Access 中找到
-```
+進入 OpenStack 面板 -> Identity / Application Credentials，在右上方選擇建立新的 Application Credential。
+> 以 CNTUG Infra Lab 為例，該連結在 https://openstack.cloudnative.tw/identity/application_credentials/
 
-最後則是部署環境，執行以下指令：
+建立完成後，點擊 Download openrc file，將會下載一個 Shell Script 檔案。
+
+最後則是部署環境，先執行剛剛的 Shell Script 再執行以下指令：
 
 ```shell
 # 部署環境
