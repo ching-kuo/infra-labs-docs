@@ -448,12 +448,20 @@ replace:
 `terraform apply`
 
 # 會跳出確認視窗，請輸入 `yes` 來確認。
+
+# ref: https://www.terraform.io/cli/commands/apply
 ```
+
 
 ## How to destroy the environment
 
 當實驗結束後，我們可以使用以下指令來銷毀環境：
 
 ```shell
-terraform apply -destroy
+# 銷毀環境
+terraform destroy
+
+# 會跳出確認視窗，請輸入 `yes` 來確認。
+
+# ref: https://www.terraform.io/cli/commands/destroy
 ```
