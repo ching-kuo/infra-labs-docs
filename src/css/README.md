@@ -51,7 +51,9 @@ projects under the org.
    admonition tints, and dark-mode surfaces will all shift to CNCF blue
    on Clarity City + Noto Sans TC.
 
-That's it — no plugins, no Docusaurus theme swizzle, no JS.
+That's it for the design system — no plugins, no swizzle, no JS.
+(Mermaid diagram theming is an optional extra that does need a small
+swizzle — see "Mermaid diagrams" below.)
 
 ---
 
@@ -80,6 +82,24 @@ The bridge maps tokens onto these Infima variables:
 - **Footer** — flipped to CNCF Black, turquoise headings.
 - **Focus ring** — `0 0 0 3px rgba(0, 134, 255, 0.35)`, brand-blue,
   always visible.
+
+---
+
+## Mermaid diagrams
+
+All Mermaid diagrams (flowcharts and sequence diagrams) are rebranded
+to CNCF Blue nodes/edges, the brand font stack, and a dedicated
+dark-mode palette. This is **not** done through the token bridge:
+`@docusaurus/theme-mermaid` accepts only a single static config across
+color modes, so `src/theme/Mermaid/` swizzles `@theme/Mermaid` to feed
+Mermaid a per-color-mode `themeVariables` palette.
+
+The palette uses **concrete hex values** mirroring the tokens (not
+`var(--token)`): Mermaid derives shades with the khroma color library
+and strips values containing dashes, so CSS variables can't be used.
+Keep the `LIGHT` / `DARK` palettes in `src/theme/Mermaid/index.js` in
+sync if the color tokens change. Layout-only CSS lives under
+`.docusaurus-mermaid-container` in `custom.css`.
 
 ---
 

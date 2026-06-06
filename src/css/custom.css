@@ -11,3 +11,20 @@
 
 @import "./cntug-tokens.css";
 @import "./cntug-infima.css";
+
+/* Mermaid diagrams — colours/fonts come from the swizzled @theme/Mermaid
+   (src/theme/Mermaid). This only handles layout, since the swizzle does not
+   pull in the theme's own container stylesheet. On every
+   @docusaurus/theme-mermaid bump, re-check
+   node_modules/@docusaurus/theme-mermaid/lib/theme/Mermaid/styles.module.css
+   for new rules worth mirroring here. */
+.docusaurus-mermaid-container {
+  max-width: 100%;
+  margin: var(--space-5) 0;
+  text-align: center;
+}
+
+.docusaurus-mermaid-container > svg {
+  max-width: 100%;
+  height: auto;
+}
